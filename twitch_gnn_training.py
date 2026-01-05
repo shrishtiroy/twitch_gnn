@@ -1,8 +1,5 @@
 # twitch_gnn_training.py
-"""
-Train GNN for Twitch streamer recommendation.
-Adapted from movie recommendation pipeline with streamer-specific features.
-"""
+
 
 import numpy as np
 import torch
@@ -37,7 +34,7 @@ y_test = data['test']['y'].to(device)
 p_test = data['test']['p'].to(device)
 n_test = x_test.shape[0]
 
-# Streamer features (for potential feature augmentation)
+# Streamer features 
 features = data['features'].to(device)
 
 print(f"Number of streamers (nodes in graph): {N}")
@@ -47,7 +44,6 @@ print(f"Number of test samples: {n_test}")
 def streamer_mse_loss(y_hat, y, idx_streamer):
     """
     MSE loss for streamer recommendation.
-    Same structure as movie recommendation loss.
     """
     y_hat = y_hat.squeeze()
     y = y.squeeze()
@@ -59,7 +55,7 @@ def streamer_mse_loss(y_hat, y, idx_streamer):
 
 def filter_function(x, h, S, b):
     """
-    Graph filter function (same as movie recommendation).
+    Graph filter function
     """
     B, G, N = x.shape
     K, _, F = h.shape
@@ -80,7 +76,7 @@ def filter_function(x, h, S, b):
     return y
 
 class FilterModule(nn.Module):
-    """Graph filter module (same as movie recommendation)."""
+    """Graph filter module """
     
     def __init__(self, K, f_in, f_out):
         super().__init__()
@@ -106,7 +102,7 @@ class GNNModule(nn.Module):
     GNN for streamer recommendation.
     Architecture considers:
     - Mutual follower relationships (in graph S)
-    - Streamer features (views, lifetime) are incorporated in S construction
+    - Streamer features (views, lifetime, mutual followers) are incorporated in S
     """
     
     def __init__(self, L, k_list, f_list, sigma):
@@ -133,7 +129,6 @@ class GNNModule(nn.Module):
         return x
 
 # GNN specifications
-# Experiment with these to optimize for streamer recommendation
 L = 3  # Number of layers
 K_list = [5, 5, 1]  # Filter taps per layer
 F_list = [1, 64, 32, 1]  # Feature dimensions
@@ -156,7 +151,6 @@ n_batches = int(np.ceil(n_train / batch_size))
 loss_train = []
 loss_test = []
 
-print("\nStarting training...")
 for epoch in range(n_epochs):
     random_permutation = np.random.permutation(n_train)
     idx_epoch = [int(i) for i in random_permutation]
@@ -223,8 +217,7 @@ with torch.no_grad():
     final_test_mse = streamer_mse_loss(y_hat_test, y_test, p_test)
 
 print(f"\nFinal Test Mean Squared Error: {final_test_mse.item():.5f}")
-print("\nTraining complete!")
+
 
 # Save model
 torch.save(model.state_dict(), 'twitch_gnn_model.pth')
-print("Model saved to twitch_gnn_model.pth")
