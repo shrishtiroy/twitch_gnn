@@ -2,6 +2,9 @@
 
 A Graph Neural Network (GNN) recommendation system that predicts which Twitch streamers users will watch based on social network structure and streamer features. Processes 168,114 streamers and 6.8 million mutual follower relationships.
 
+##Why this project
+I wanted to create this project because during quarantine, I spent a lot of time on Twitch watching my favorite streamers. I would interact with people in streamers' chats and they were like my online friends. Eventually, I wanted to find new streamers that my friends watched but also related to my watch history. This is what TwitchGNN aims to do.
+
 ## Overview
 
 This system implements collaborative filtering using Graph Neural Networks to recommend Twitch streamers. The approach combines:
