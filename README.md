@@ -1,4 +1,4 @@
-# Twitch Streamer Recommendation System with Graph Neural Networks
+# Twitch Streamer Recommendation System with GNNs
 
 A Graph Neural Network (GNN) recommendation system that predicts which Twitch streamers users will watch based on social network structure and streamer features. Processes 168,114 streamers and 6.8 million mutual follower relationships.
 
